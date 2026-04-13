@@ -196,13 +196,20 @@ export default function ExpensesPage() {
             </p>
           </div>
         ) : (
-          grouped.map((group) => (
-            <div key={group.date}>
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2 px-1">
-                {group.date}
-              </h3>
-              <div className="space-y-2">
-                {group.items.map((expense) => {
+          grouped.map((group) => {
+            const dailyTotal = group.items.reduce((sum, item) => sum + item.amount, 0);
+            return (
+              <div key={group.date}>
+                <div className="flex items-center justify-between mb-2 px-1">
+                  <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+                    {group.date}
+                  </h3>
+                  <span className="text-xs font-semibold text-text-muted">
+                    {formatCurrency(dailyTotal)}
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {group.items.map((expense) => {
                   const cat = CATEGORY_CONFIG[expense.category] ?? CATEGORY_CONFIG["Other"];
                   return (
                     <div
@@ -260,7 +267,8 @@ export default function ExpensesPage() {
                 })}
               </div>
             </div>
-          ))
+            );
+          })
         )}
       </div>
 
