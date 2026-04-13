@@ -3,8 +3,15 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ReactNode } from "react";
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
+  if (!convex) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn("NEXT_PUBLIC_CONVEX_URL is not defined");
+    }
+    return <>{children}</>;
+  }
   return <ConvexProvider client={convex}>{children}</ConvexProvider>;
 }
