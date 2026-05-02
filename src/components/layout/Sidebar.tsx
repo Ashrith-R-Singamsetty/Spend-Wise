@@ -9,10 +9,12 @@ import {
   Target,
   BarChart3,
   Sparkles,
+  Landmark,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/balance", label: "Balance", icon: Landmark },
   { href: "/expenses", label: "Expenses", icon: Receipt },
   { href: "/income", label: "Income", icon: Wallet },
   { href: "/budgets", label: "Budgets", icon: Target },

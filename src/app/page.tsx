@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { CATEGORY_CONFIG, CHART_COLORS } from "@/lib/constants";
-import { formatCurrency, getMonthRange, getPreviousMonthRange, formatRelative } from "@/lib/utils";
+import { formatCurrency, getMonthRange, getPreviousMonthRange, formatRelative, formatDate } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import Modal from "@/components/ui/Modal";
 import ExpenseForm from "@/components/expenses/ExpenseForm";
@@ -17,6 +17,7 @@ import {
   Wallet,
   ArrowUpRight,
   ArrowDownRight,
+  Landmark,
 } from "lucide-react";
 import {
   PieChart,
@@ -43,6 +44,7 @@ export default function DashboardPage() {
   const recentIncome = useQuery(api.income.list, { limit: 3 });
   const quickAdds = useQuery(api.quickAdds.list);
   const budgets = useQuery(api.budgets.getWithSpending, { startDate, endDate });
+  const balanceInfo = useQuery(api.bankBalance.getCurrentBalance);
 
   const triggerQuickAdd = useMutation(api.quickAdds.useQuickAdd);
 
@@ -63,6 +65,32 @@ export default function DashboardPage() {
           day: "numeric",
         })}
       />
+
+      {/* Bank Balance Card */}
+      <div className="mb-4">
+        <button
+          onClick={() => window.location.href = "/balance"}
+          className="w-full p-4 rounded-2xl bg-bg-secondary border border-border hover:border-accent-primary/40 transition-all text-left flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary group-hover:scale-110 transition-transform">
+              <Landmark size={20} />
+            </div>
+            <div>
+              <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Current Bank Balance</p>
+              <p className="text-xl font-bold">
+                {balanceInfo ? formatCurrency(balanceInfo.currentBalance) : "₹0"}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] text-text-muted">Last entry</p>
+            <p className="text-xs font-medium text-text-secondary">
+              {balanceInfo?.lastEntry ? formatDate(balanceInfo.lastEntry.date) : "No data"}
+            </p>
+          </div>
+        </button>
+      </div>
 
       {/* Hero Cash Flow Card */}
       {summary && (

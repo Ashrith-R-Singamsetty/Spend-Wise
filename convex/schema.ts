@@ -51,4 +51,10 @@ export default defineSchema({
     category: v.string(),
     icon: v.string(),
   }),
+
+  bankBalance: defineTable({
+    amount: v.number(),
+    date: v.number(), // timestamp in ms
+    note: v.optional(v.string()),
+  }).index("by_date", ["date"]),
 });

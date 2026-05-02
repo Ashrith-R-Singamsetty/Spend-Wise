@@ -7,15 +7,15 @@ import {
   Receipt,
   Wallet,
   Target,
-  BarChart3,
+  Landmark,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: LayoutDashboard },
+  { href: "/balance", label: "Balance", icon: Landmark },
   { href: "/expenses", label: "Expenses", icon: Receipt },
   { href: "/income", label: "Income", icon: Wallet },
   { href: "/budgets", label: "Budgets", icon: Target },
-  { href: "/insights", label: "Insights", icon: BarChart3 },
 ];
 
 export default function BottomNav() {
