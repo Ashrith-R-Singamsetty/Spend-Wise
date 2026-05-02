@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { CATEGORY_CONFIG, CHART_COLORS } from "@/lib/constants";
@@ -28,6 +28,17 @@ import {
 
 export default function DashboardPage() {
   const [addType, setAddType] = useState<"expense" | "income" | null>(null);
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    setCurrentDate(
+      new Date().toLocaleDateString("en-IN", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      })
+    );
+  }, []);
 
   const { startDate, endDate } = getMonthRange();
   const { startDate: prevStart, endDate: prevEnd } = getPreviousMonthRange();
@@ -59,11 +70,7 @@ export default function DashboardPage() {
     <div className="animate-fade-in">
       <Header
         title="SpendWise"
-        subtitle={new Date().toLocaleDateString("en-IN", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-        })}
+        subtitle={currentDate}
       />
 
       {/* Bank Balance Card */}
