@@ -8,6 +8,7 @@ import {
   Wallet,
   Target,
   Landmark,
+  PieChart,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
   { href: "/expenses", label: "Expenses", icon: Receipt },
   { href: "/income", label: "Income", icon: Wallet },
   { href: "/budgets", label: "Budgets", icon: Target },
+  { href: "/insights", label: "Insights", icon: PieChart },
 ];
 
 export default function BottomNav() {
@@ -23,7 +25,7 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-bg-secondary/80 backdrop-blur-xl md:hidden">
-      <div className="flex items-center justify-around px-2 py-1">
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide px-4 py-1">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -31,7 +33,7 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all duration-200 ${
+              className={`flex-none flex flex-col items-center justify-center gap-0.5 min-w-[4rem] px-2 py-2 rounded-xl transition-all duration-200 ${
                 isActive
                   ? "text-accent-primary"
                   : "text-text-secondary hover:text-text-primary"
